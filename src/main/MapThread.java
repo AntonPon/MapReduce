@@ -8,9 +8,9 @@ public class MapThread implements Runnable{
     private List<Integer> countValues;
     private int start;
     private int end;
-    private List<List<MapOutput>> reducerLists;
+    private List<List<MapOutput<Integer, Integer>>> reducerLists;
 
-    public MapThread(int start, int end, List<Integer> countValues, List<List<MapOutput>> reducerLists){
+    public MapThread(int start, int end, List<Integer> countValues, List<List<MapOutput<Integer, Integer>>> reducerLists){
         this.start = start;
         this.end = end;
         this.countValues = countValues;
@@ -23,7 +23,7 @@ public class MapThread implements Runnable{
         for(int i = start; i < end; i++){
             int number = countValues.get(i).intValue();
             int thread = number % reducerLists.size();
-            reducerLists.get(thread).add(new MapOutput(number, 1));
+            reducerLists.get(thread).add(new MapOutput(new Integer(number), new Integer(1)));
         }
 
     }

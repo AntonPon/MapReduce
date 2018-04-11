@@ -1,25 +1,25 @@
 package main;
 
-public class MapOutput {
-    private int key;
-    private int value;
+public class MapOutput<K, V> {
+    private K key;
+    private V value;
 
-    public MapOutput(int key, int value){
+    public MapOutput(K key, V value){
         this.key = key;
         this.value = value;
     }
 
-    public int getKey() {
+    public K getKey() {
         return key;
     }
 
-    public int getValue() {
+    public V getValue() {
         return value;
     }
 
     @Override
     public  int hashCode(){
-        return key;
+        return key.hashCode();
     }
 
     @Override
