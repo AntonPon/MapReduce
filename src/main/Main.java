@@ -9,8 +9,8 @@ import static java.lang.Math.pow;
 public class Main {
 
     public static void main(String ... args){
-        System.out.println("power: " + "-------" + " time");
-        for (int power = 0; power< 24; power ++) {
+      //  System.out.println("power: " + "-------" + " time");
+        for (int power = 0; power<=  24; power ++) {
             long start = System.currentTimeMillis();
             int array_size = (int) pow(2, power);
             List<Integer> array = Collections.synchronizedList(new ArrayList<>());
@@ -22,7 +22,7 @@ public class Main {
             List<MapOutput<Integer, Integer>> result = runMapReduce(array);
             long end = System.currentTimeMillis();
 
-            System.out.println("   " + power + "  ------  "+ (end-start)/1000.0);
+            System.out.println(" power:  " + power + "  ------  time: "+ (end-start)/1000.0);
         }
     }
 
@@ -45,6 +45,7 @@ public class Main {
 
 
         Thread[] threads = new Thread[finalBucketsNumber];
+        System.out.println("mappers number: " + finalBucketsNumber);
         for (int i = 0; i <finalBucketsNumber; i++){
             threads[i] = new Thread(new MapThread(start, end, array, buckets));
             start = end;
@@ -64,9 +65,9 @@ public class Main {
         // reducer part
 
         List<MapOutput<Integer, Integer>> result = new ArrayList<>();
-        ExecutorService executor = Executors.newFixedThreadPool(coreNumber);
+        ExecutorService executor = Executors.newFixedThreadPool(finalBucketsNumber);
         List<Future<List<MapOutput<Integer, Integer>>>> list = new ArrayList<>();
-
+        System.out.println("reducers number: " + finalBucketsNumber);
         for (List<MapOutput<Integer, Integer>> ar: buckets){
             Callable<List<MapOutput<Integer, Integer>>> thread = new ReducerThread(ar);
             Future< List<MapOutput<Integer, Integer>>> future = executor.submit(thread);
